@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 24 08:57:26 2022
 
-@author: ae
-"""
-
-
-# Import libraries
 import requests
 import pandas as pd
 from datetime import date
@@ -16,7 +9,11 @@ import numpy as np
 import random
 
 from config import DEFAULT_CC_LIST, CC_DICT, IMF_CODES
+from impute_gdp_forecasts import prepare_gdp_forecasts_dataset
 
+"""Prepare dummy datasets with released gdp data and average annual gdp forecasts based on imf data
+   to check the behaviour of impute_gdp_forecasts module.
+"""
 def get_gdp_data_country(country_name:str, start_period:int=1960, end_period:int=None)->pd.Series:
     """Download real gdp data for one country from IMF
     """
@@ -40,7 +37,7 @@ def get_gdp_data_country(country_name:str, start_period:int=1960, end_period:int
     return out_tr.squeeze()
 
 
-def prepare_example_data(asof_quarter:pd.Timestamp=pd.Timestamp('2019-06-01'), country_list:list=DEFAULT_CC_LIST)->Tuple[pd.DataFrame,pd.DataFrame]:
+def prepare_data(asof_quarter:pd.Timestamp=pd.Timestamp('2019-06-01'), country_list:list=DEFAULT_CC_LIST)->Tuple[pd.DataFrame,pd.DataFrame]:
     """Prepare prepare datasets with released and forecasted gdp data.
     """
     # Prepare the dataset with real gdp data for a set of countries 
@@ -59,11 +56,12 @@ def prepare_example_data(asof_quarter:pd.Timestamp=pd.Timestamp('2019-06-01'), c
     return published_gdp, yoy_avg_forecasts
 
 
-def main():
-    
+def run_example()->pd.DataFrame:
+    """Run example
+    """
+    published_gdp, yoy_avg_forecasts = prepare_data()
+    quartely_gdp = prepare_gdp_forecasts_dataset(published_gdp, yoy_avg_forecasts)
+    return quartely_gdp
 
 
-    
-     
-     
-     
+

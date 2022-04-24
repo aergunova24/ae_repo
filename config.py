@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 24 09:20:51 2022
 
-@author: ae
-"""
 from imfpy import searches
 
 
